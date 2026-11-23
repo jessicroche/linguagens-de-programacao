@@ -15,11 +15,13 @@ import Lexer
     ')'     { TokClosePar }
     '-'     { TokSub }
     '/'     { TokDiv }
+    '='     { TokEqual }
 
 %left '+'
 %left '-'
 %left '*'
 %left '/'
+%left '='
 
 %% 
 
@@ -28,6 +30,7 @@ Exp : num               { Num $1 }
     | Exp '*' Exp       { Mult $1 $3 }
     | Exp '-' Exp       { Sub $1 $3 }
     | Exp '/' Exp       { Div $1 $3 }
+    | Exp '=' Exp       { Equal $1 $3}
     | '(' Exp ')'       { $2 }
 
 { 
