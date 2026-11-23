@@ -1,7 +1,6 @@
 module Lexer where 
 
 import Data.Char (isDigit, isSpace)
-
 type Id =  String
 
 data Token = TokNum Int 
@@ -22,12 +21,13 @@ data Expr = Num Int
           | Equal Expr Expr
           | If Expr Expr Expr
           | Var Id
-          | Lam Id Expr
+          | Lam Id Ty Expr
           | App Expr Expr
           deriving (Show, Eq)
 
 data Ty = TInt
         | TBool
+        | TFun Ty Ty
         deriving (Show, Eq)
 
 lexer :: String -> [Token]
