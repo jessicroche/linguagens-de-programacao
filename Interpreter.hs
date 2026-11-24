@@ -158,6 +158,11 @@ step(Not e1) =
     let e1' = step e1
         in Not e1'
 
+-- IF
+step(If (Boolean n1) e2 e3) = (if n1 then e2 else e3)
+step(If e1 e2 e3) =
+    let e1' = step e1
+        in If e1' e2 e3
 
 step (App (Lam x t body) arg) = subst body x arg
 step (App e1 e2) = App (step e1) e2
