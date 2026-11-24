@@ -10,6 +10,23 @@ data Token = TokNum Int
            | TokClosePar
            | TokSub
            | TokDiv
+           | TokEqual
+           | TokDiff
+           | TokAnd
+           | TokOr
+           | TokMaior
+           | TokMaiorIgual
+           | TokMenor
+           | TokMenorIgual
+           | TokNot 
+           | TokIf 
+           | TokThen
+           | TokElse
+           | TokTrue
+           | TokFalse
+           | TokVar String
+           | TokLam
+           | TokLet
            deriving (Show, Eq)
 
 data Expr = Num Int 
@@ -23,6 +40,15 @@ data Expr = Num Int
           | Var Id
           | Lam Id Ty Expr
           | App Expr Expr
+          | Diff Expr Expr
+          | And Expr Expr
+          | Or Expr Expr
+          | Not Expr
+          | Maior Expr Expr
+          | Menor Expr Expr
+          | MaiorIgual Expr Expr
+          | MenorIgual Expr Expr
+
           deriving (Show, Eq)
 
 data Ty = TInt
@@ -38,6 +64,15 @@ lexer ('(':cs) = TokOpenPar : lexer cs
 lexer (')':cs) = TokClosePar : lexer cs
 lexer ('-':cs) = TokSub : lexer cs
 lexer ('/':cs) = TokDiv : lexer cs
+lexer ('=':'=':cs) = TokEqual : lexer cs
+lexer ('!':'=':cs) = TokDiff : lexer cs
+lexer ('&':'&':cs) = TokAnd : lexer cs
+lexer ('|':'|':cs) = TokOr : lexer cs
+lexer ('>':cs) = TokMaior : lexer cs
+lexer ('<':cs) = TokMenor : lexer cs
+lexer ('<':'=':cs) = TokMenorIgual : lexer cs
+lexer ('>':'=':cs) = TokMaiorIgual : lexer cs
+lexer ('!':cs) = TokNot : lexer cs
 lexer (c:cs) | isSpace c = lexer cs 
              | isDigit c = lexNum (c:cs)
              | otherwise = error ("Erro lexico: caracter invalido '" ++ [c] ++ "'")
