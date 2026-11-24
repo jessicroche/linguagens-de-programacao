@@ -134,6 +134,31 @@ step(MenorIgual e1 e2) =
     let e1' = step e1
         in MenorIgual e1' e2
 
+-- AND
+step(And (Boolean n1) (Boolean n2)) = Boolean (n1 && n2)
+step(And (Boolean n1) e2) = 
+    let e2' = step e2
+        in And(Boolean n1) e2'
+step(And e1 e2) = 
+    let e1' = step e1
+        in And e1' e2
+
+-- OR
+step(Or (Boolean n1) (Boolean n2)) = Boolean (n1 || n2)
+step(Or (Boolean n1) e2) = 
+    let e2' = step e2
+        in Or(Boolean n1) e2'
+step(Or e1 e2) = 
+    let e1' = step e1
+        in Or e1' e2
+
+-- NOT
+step(Not (Boolean n1)) = Boolean (not n1)
+step(Not e1) = 
+    let e1' = step e1
+        in Not e1'
+
+
 step (App (Lam x t body) arg) = subst body x arg
 step (App e1 e2) = App (step e1) e2
 
